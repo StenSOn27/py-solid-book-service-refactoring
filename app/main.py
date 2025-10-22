@@ -20,13 +20,15 @@ BOOK_STRATEGIES = {
 }
 
 
-def main(book: Book, commands: list[tuple[str, str]]) -> None | str:
+def main(book: Book, commands: list[tuple[str, str]]) -> str | None:
+    last_result = None
     for cmd, method_type in commands:
-        try:
-            strategy = BOOK_STRATEGIES[cmd][method_type]
-            return strategy(book)
-        except ValueError as er:
-            print("ValueError", er)
+        strategy = BOOK_STRATEGIES[cmd][method_type]
+        result = strategy(book)
+        if result is not None:
+            last_result = result
+    return last_result
+
 
 if __name__ == "__main__":
     sample_book = Book("Sample Book", "This is some sample content.")
